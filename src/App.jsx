@@ -1,5 +1,12 @@
 import { useEffect, useState,useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import {
+  SiReact, SiNodedotjs, SiExpress, SiSqlite, SiFigma,
+  SiGit, SiGithub, SiVite, SiJavascript, SiHtml5,
+  SiPython, SiOverleaf, SiNotion,
+} from 'react-icons/si'
+import { VscVscode } from 'react-icons/vsc'
+import { TbLayoutBoard, TbFileSpreadsheet, TbPalette, TbBrandCss3 } from 'react-icons/tb'
 import './App.css'
 
 function useTheme() {
@@ -397,6 +404,153 @@ function WorkAndExperience() {
   )
 }
 
+const TOOLS = [
+  { Icon: SiReact, name: 'React' },
+  { Icon: SiNodedotjs, name: 'Node.js' },
+  { Icon: SiExpress, name: 'Express' },
+  { Icon: SiSqlite, name: 'SQLite' },
+  { Icon: SiVite, name: 'Vite' },
+  { Icon: SiJavascript, name: 'JavaScript' },
+  { Icon: SiPython, name: 'Python' },
+  { Icon: SiHtml5, name: 'HTML5' },
+  { Icon: TbBrandCss3, name: 'CSS3' },
+  { Icon: SiGit, name: 'Git' },
+  { Icon: SiGithub, name: 'GitHub' },
+  { Icon: VscVscode, name: 'VS Code' },
+  { Icon: SiFigma, name: 'Figma' },
+  { Icon: TbPalette, name: 'Canva' },
+  { Icon: TbLayoutBoard, name: 'Mockups' },
+  { Icon: TbFileSpreadsheet, name: 'Excel' },
+  { Icon: SiOverleaf, name: 'Overleaf' },
+  { Icon: SiNotion, name: 'Notion' },
+]
+
+function LogoMarquee() {
+  const loop = [...TOOLS, ...TOOLS]
+  return (
+    <div className="marquee">
+      <div className="marquee-track">
+        {loop.map((t, i) => (
+          <div className="marquee-item" key={i} title={t.name}>
+            <t.Icon size={32} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const SKILL_CATEGORIES = {
+  Engineering: [
+    { title: 'React & Modern JS', desc: 'Component architecture, hooks, state management.' },
+    { title: 'Node.js / Express', desc: 'REST APIs, server logic, integration.' },
+    { title: 'SQLite & Data', desc: 'Relational schema design, queries.' },
+    { title: 'Security Fundamentals', desc: 'Applied cryptography, coursework in classical + modern ciphers.' },
+  ],
+  Design: [
+    { title: 'UX/UI Design', desc: 'End-to-end product interface design.' },
+    { title: 'Design Systems & Brand', desc: 'Visual identity, component libraries.' },
+    { title: 'Bilingual Content', desc: 'Arabic and English copy and layout.' },
+  ],
+  Leadership: [
+    { title: 'Team & Governance Structuring', desc: 'Org design across multi-department teams.' },
+    { title: 'Presentation & Pitch Design', desc: 'Stakeholder-facing decks and narratives.' },
+    { title: 'Stakeholder Documentation', desc: 'Clear written process and specs.' },
+  ],
+}
+
+function OrbitCenter() {
+  const ref = useRef(null)
+
+  function handleMove(e) {
+    const el = ref.current
+    const rect = el.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 18
+    const rotateX = -((y - rect.height / 2) / (rect.height / 2)) * 18
+    el.style.transform = `perspective(400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.08)`
+  }
+  function handleLeave() {
+    ref.current.style.transform = 'perspective(400px) rotateX(0) rotateY(0) scale(1)'
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="orbit-center"
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+    >
+      <span>You</span>
+    </div>
+  )
+}
+
+function SkillsOrbit() {
+  const categories = Object.keys(SKILL_CATEGORIES)
+  const [active, setActive] = useState(categories[0])
+  const radius = 120
+
+  return (
+    <div className="orbit-wrap">
+      <div className="orbit-stage">
+        <OrbitCenter />
+        {categories.map((cat, i) => {
+          const angle = (i / categories.length) * 2 * Math.PI - Math.PI / 2
+          const x = Math.cos(angle) * radius
+          const y = Math.sin(angle) * radius
+          return (
+            <div
+              key={cat}
+              className="orbit-node-pos"
+              style={{ transform: `translate(${x}px, ${y}px)` }}
+            >
+              <button
+                className={`orbit-node ${active === cat ? 'active' : ''}`}
+                style={{ animationDelay: `${i * 0.4}s` }}
+                onClick={() => setActive(cat)}
+              >
+                {cat}
+              </button>
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="orbit-cards">
+        {SKILL_CATEGORIES[active].map((s) => (
+          <motion.div
+            className="skill-card"
+            key={s.title}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h4>{s.title}</h4>
+            <p>{s.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Skills() {
+  return (
+    <section id="skills" className="bg-alt">
+      <div className="wrap skills-header">
+        <p className="section-eyebrow">Skills &amp; Tools</p>
+        <h2>Powered by caffeine and these.</h2>
+      </div>
+      <LogoMarquee />
+      <div className="wrap">
+        <SkillsOrbit />
+      </div>
+    </section>
+  )
+}
+
 //full components
 export default function App() {
   return (
@@ -405,6 +559,7 @@ export default function App() {
       <Hero />
       <About />
       <WorkAndExperience />
+      <Skills/>
     </div>
   )
 }

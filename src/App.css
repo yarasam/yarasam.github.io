@@ -241,3 +241,115 @@ section{padding:110px 0;}
 .kind-internship{ background:rgba(255,159,10,0.15); color:#c77800; }
 .kind-project{ background:rgba(46,196,120,0.15); color:#1f9d5c; }
 .kind-grad-project{ background:rgba(61,90,254,0.12); color:#3450d6; }
+
+/* ---- logo marquee ---- */
+.marquee{
+  overflow:hidden; padding:36px 0;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  margin-bottom:100px;
+}
+.marquee-track{
+  display:flex; gap:56px; width:max-content;
+  animation: scroll-marquee 40s linear infinite;
+}
+.marquee-item{
+  display:flex; align-items:center; justify-content:center;
+  color: var(--muted); opacity:0.6;
+  transition:opacity .2s ease, color .2s ease, transform .2s ease;
+  flex:none;
+}
+.marquee-item:hover{
+  opacity:1; color:var(--accent);
+  transform: scale(1.25);
+}
+.marquee-item:hover{ opacity:1; color:var(--accent); }
+@keyframes scroll-marquee{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+
+/* ---- orbit skills selector ---- */
+.orbit-wrap{
+  display:flex; flex-direction:column; align-items:center; gap:56px;
+  padding-top:20px;
+}
+.orbit-stage{
+  position:relative; width:320px; height:320px;
+  display:flex; align-items:center; justify-content:center;
+}
+.orbit-center{
+  width:92px; height:92px; border-radius:50%;
+  background: radial-gradient(circle at 32% 28%, #7a70f0, var(--accent) 55%, #3d34a8 100%);
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:600; z-index:2;
+  box-shadow:
+    inset -6px -6px 14px rgba(0,0,0,0.25),
+    inset 6px 6px 14px rgba(255,255,255,0.25),
+    0 16px 32px rgba(91,79,224,0.4);
+  cursor:pointer;
+  transition: transform .15s ease-out, box-shadow .3s ease;
+  animation: orbit-float 4s ease-in-out infinite;
+  will-change: transform;
+}
+.orbit-center:hover{
+  box-shadow:
+    inset -6px -6px 14px rgba(0,0,0,0.25),
+    inset 6px 6px 14px rgba(255,255,255,0.3),
+    0 20px 44px rgba(91,79,224,0.55);
+}
+@keyframes orbit-float{
+  0%, 100%{ margin-top:0; }
+  50%{ margin-top:-8px; }
+}
+.orbit-node-pos{
+  position:absolute; top:50%; left:50%;
+  margin-top:-30px; margin-left:-55px;
+}
+.orbit-node{
+  width:110px; height:60px; border-radius:16px;
+  background:var(--bg); border:1px solid var(--border);
+  font-size:13px; font-weight:600; color:var(--muted);
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  animation: node-float 3.6s ease-in-out infinite;
+  transition: background .25s ease, color .25s ease, border-color .25s ease,
+              transform .2s ease, box-shadow .2s ease;
+}
+.orbit-node:hover{
+  transform: translateY(-6px) scale(1.05);
+  box-shadow:0 16px 30px rgba(0,0,0,0.12);
+}
+.orbit-node.active{
+  background:var(--accent); color:#fff; border-color:var(--accent);
+  box-shadow:0 8px 24px rgba(91,79,224,0.35);
+}
+@keyframes node-float{
+  0%, 100%{ margin-top:0; }
+  50%{ margin-top:-7px; }
+}
+.orbit-node.active{
+  background:var(--accent); color:#fff; border-color:var(--accent);
+  box-shadow:0 8px 24px rgba(91,79,224,0.35);
+}
+
+.orbit-cards{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:16px; width:100%; max-width:800px;
+}
+.skill-card{
+  border:1px solid var(--border); border-radius:14px; padding:20px;
+  background:var(--bg);
+}
+.skill-card h4{font-size:0.98rem; font-weight:600; margin:0 0 8px;}
+.skill-card p{font-size:0.85rem; color:var(--muted); line-height:1.5; margin:0;}
+
+@media (max-width:600px){
+  .orbit-stage{width:260px; height:260px;}
+ .orbit-node-pos{margin-left:-44px; margin-top:-26px;}
+.orbit-node{width:88px; height:52px; font-size:11.5px;}
+}
+
+.skills-header{ text-align:center; }
+.skills-header h2{ margin-left:auto; margin-right:auto; }
