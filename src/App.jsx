@@ -1,5 +1,6 @@
 import { useEffect, useState,useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
+import { TbMail, TbBrandLinkedin, TbBrandX, TbArrowUpRight } from 'react-icons/tb'
 import {
   SiReact, SiNodedotjs, SiExpress, SiSqlite, SiFigma,
   SiGit, SiGithub, SiVite, SiJavascript, SiHtml5,
@@ -26,7 +27,6 @@ function useTheme() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
-  const [theme, setTheme] = useTheme()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -44,14 +44,6 @@ function Nav() {
           <li><a href="#skills">Skills</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        <button
-        // for dark and light modes 
-          className="theme-toggle"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          aria-label="Toggle dark mode"
-        >
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </button>
       </div>
     </nav>
   )
@@ -551,6 +543,103 @@ function Skills() {
   )
 }
 
+
+function Contact() {
+  const sectionRef = useRef(null)
+  const [glow, setGlow] = useState({ x: 50, y: 50 })
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+
+  function handleMove(e) {
+    const rect = sectionRef.current.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    setGlow({ x, y })
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setStatus('sending')
+    const form = e.target
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        setStatus('sent')
+        form.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section
+      id="contact"
+      className="contact-dark"
+      ref={sectionRef}
+      onMouseMove={handleMove}
+      style={{ '--gx': `${glow.x}%`, '--gy': `${glow.y}%` }}
+    >
+      <div className="contact-glow" />
+      <div className="wrap contact-grid">
+        <div className="contact-left">
+          <span className="contact-badge">Contact</span>
+          <h2>Get in touch.</h2>
+          <p>Open to IT, consulting, and project-management roles — reach out anytime.</p>
+
+          <div className="contact-links">
+            <a href="mailto:your.email@example.com" className="contact-link-row">
+              <span className="contact-link-icon"><TbMail size={20} /></span>
+              <span>
+                <span className="contact-link-label">Email me</span>
+                <span className="contact-link-value">your.email@example.com</span>
+              </span>
+              <TbArrowUpRight className="contact-link-arrow" />
+            </a>
+            <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener" className="contact-link-row">
+              <span className="contact-link-icon"><TbBrandLinkedin size={20} /></span>
+              <span>
+                <span className="contact-link-label">LinkedIn</span>
+                <span className="contact-link-value">/in/your-profile</span>
+              </span>
+              <TbArrowUpRight className="contact-link-arrow" />
+            </a>
+            <a href="https://x.com/your-handle" target="_blank" rel="noopener" className="contact-link-row">
+              <span className="contact-link-icon"><TbBrandX size={20} /></span>
+              <span>
+                <span className="contact-link-label">X</span>
+                <span className="contact-link-value">@your-handle</span>
+              </span>
+              <TbArrowUpRight className="contact-link-arrow" />
+            </a>
+          </div>
+        </div>
+
+        <form
+          className="contact-form"
+          action="https://formspree.io/f/YOUR_FORM_ID"
+          onSubmit={handleSubmit}
+        >
+          <input type="text" name="name" placeholder="Name" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <textarea name="message" placeholder="Message" rows={6} required />
+          <button type="submit" disabled={status === 'sending'}>
+            {status === 'sending' ? 'Sending...' : status === 'sent' ? 'Sent ✓' : 'Submit'}
+          </button>
+          {status === 'error' && (
+            <p className="form-error">Something went wrong — try again or email me directly.</p>
+          )}
+        </form>
+      </div>
+    </section>
+  )
+}
+
 //full components
 export default function App() {
   return (
@@ -560,6 +649,7 @@ export default function App() {
       <About />
       <WorkAndExperience />
       <Skills/>
+      <Contact />
     </div>
   )
 }
