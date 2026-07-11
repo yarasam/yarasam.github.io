@@ -9,6 +9,8 @@ import {
 import { VscVscode } from 'react-icons/vsc'
 import { TbLayoutBoard, TbFileSpreadsheet, TbPalette, TbBrandCss3 } from 'react-icons/tb'
 import './App.css'
+import Spline from '@splinetool/react-spline'
+
 
 function useTheme() {
   const [theme, setTheme] = useState(() => {
@@ -85,22 +87,44 @@ function TypeWriter({ words, typingSpeed = 80, deletingSpeed = 40, pause = 1600 
 }
 
 //boot 
+
+function HeroSplineScene() {
+  return (
+    <div className="spline-scale-wrapper">
+      <Spline
+        scene="https://prod.spline.design/HJ7SHFoATPMT0Yrn/scene.splinecode"
+        style={{ width: '100%', height: '100%' }}
+      />
+    </div>
+  )
+}
+
 function Hero() {
   return (
-    <section id="top" className="hero">
-      <p className="hero-eyebrow">Full-Stack Developer &amp; UX/UI Designer</p>
-      <h1>
-        I <span className="accent"><TypeWriter words={['build it.', 'design it.']} /></span>
-      </h1>
-      //to be edited
-      <p className="sub">
-        Computer Science graduate from Taif University, working across the
-        full stack and the interface — from clinical software to early-stage
-        product teams.
-      </p>
-      <div className="hero-cta">
-        <a href="#projects" className="btn primary">View my work</a>
-        <a href="#contact" className="btn">Get in touch</a>
+    <section id="top" className="hero hero-dark">
+      <div className="hero-grid-bg" />
+      <div className="wrap hero-layout">
+        <div className="hero-left">
+          <span className="hero-badge">
+            <span className="hero-badge-dot" /> Open to new opportunities
+          </span>
+          <h1>
+            I <span className="accent"><TypeWriter words={['build it.', 'design it.']} /></span>
+          </h1>
+          <p className="sub">
+            Computer Science graduate from Taif University, working across the
+            full stack and the interface — from clinical software to early-stage
+            product teams.
+          </p>
+          <div className="hero-cta">
+            <a href="#work" className="btn primary">View my work</a>
+            <a href="#contact" className="btn glass">Get in touch</a>
+          </div>
+        </div>
+
+        <div className="hero-right">
+          <HeroSplineScene />
+        </div>
       </div>
     </section>
   )
