@@ -1,13 +1,2 @@
-@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap'); /*import Michroma*/
-@import url('https://fonts.googleapis.com/css2?family=Michroma&family=Syne:wght@400..800&display=swap'); /*import syne*/
-
-:root {
-  --bg:#10191d ;          /* the near-black blue background */
-  --teal:#70e1d1 ;        /* "About me", "Design & Branding" titles */
-  --coral:#ff795f ;       /* "Powered by", PreHack, folder tab */
-  --purple:#a78bfa ;      /* "Certifications", services tab */
-  --text:#efebec ;
-  --text-muted:#d3d3d3 ;
-  --font-display: "Michroma", sans-serif;
-  --font-body: "Syne", sans-serif;
-}
+/* intially empty
+all CSS in index.css */
